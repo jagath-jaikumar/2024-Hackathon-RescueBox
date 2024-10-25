@@ -23,7 +23,7 @@ docs = []
 for rb_app in app_names:
     app_url = APPS_REPOSITORY + "/" + rb_app + "/app.yaml"
     content = base64.b64decode(requests.get(app_url).json()["content"]).decode()
-    docs.append(content)
+    docs.append(yaml.safe_load(content))
 
 
 @app.command()
@@ -63,6 +63,7 @@ def ask(question: str):
                 - Always answer as if talking to an industry professional.
                 - If you do not know a specific answer to a question, recommend contacting Brian Levine.
                 - If a user asks for a sample command, just provide the command with no other explanation.
+                - Answer very plainly and directly. Do not be cheeky. Do not use any flowery language.
                 """,
             },
             {
@@ -79,3 +80,10 @@ def ask(question: str):
 
 if __name__ == "__main__":
     app()
+
+# Small demo
+
+# ./rb list-apps
+# ./rb app-details audio-transcription
+# ./rb ask "sample command for transcribe /my/file.mp3"
+# ./rb ask "is the sky blue"
